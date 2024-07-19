@@ -24,26 +24,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.android.myapplication.presentation.components.CitySearch
 import com.example.android.myapplication.presentation.components.WetherCard
 import com.example.android.myapplication.presentation.state.CityWeatherUiState
+import com.example.android.myapplication.presentation.viewModels.SearchViewModel
+import com.example.android.myapplication.presentation.viewModels.WeatherViewModel
 import com.example.android.myapplication.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel:WeatherViewModel by viewModels()
-//    private val cityViewModel: CityViewModel by viewModels()
+    private val viewModel: WeatherViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
 
-
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize(),
-//                    topBar = {
-//                        CitySearch(cityViewModel)}
                 ) { innerPadding ->
                     when(val uiState = viewModel.cityWeatherUiState.collectAsState().value){
                         is CityWeatherUiState.Error ->{
@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
                             CenteredBox(modifier = Modifier.padding(innerPadding)) {
                                 Column(modifier = Modifier.fillMaxWidth()){
 
+                                    CitySearch(viewModel = searchViewModel)
 
                                     WetherCard(
                                         modifier = Modifier
@@ -99,7 +100,7 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.getCityWeatherData("Skopje")
+        viewModel.getCityWeatherData(searchViewModel.searchText.value)
     }
 }
 
@@ -111,25 +112,3 @@ private fun CenteredBox(modifier: Modifier, content:@Composable () -> Unit) {
     }
 
 }
-//
-//@Composable
-//private fun SearchField(viewModel: SearchViewModel) {
-//    OutlinedTextField(
-//        modifier = Modifier.fillMaxWidth(),
-//        value = viewModel.searchFieldValue,
-//        onValueChange = { viewModel.updateSearchField(it) },
-//        label = {
-//            Text(text = "Enter a city")
-//        },
-//        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-//        maxLines = 1,
-//        trailingIcon = {
-//            IconButton(onClick = { viewModel.searchCityClick() }) {
-//                Icon(
-//                    painter = painterResource(id = R.drawable.baseline_search_24),
-//                    contentDescription = null
-//                )
-//            }
-//        }
-//    )
-//}
