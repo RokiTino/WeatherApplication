@@ -53,7 +53,7 @@ fun WetherCard(
                     fontStyle = FontStyle.Normal,
                     color = Color.LightGray,
                     modifier= Modifier
-                        .weight(2f)
+                        .weight(3f)
                         .padding(10.dp))
 
                 Row (modifier=Modifier.weight(2f)) {
@@ -64,15 +64,15 @@ fun WetherCard(
                         fontStyle = FontStyle.Italic,
                         color = Color.White,
                         modifier = Modifier
-                            .weight(3f)
-                            .padding(10.dp)
+                            .weight(2f)
+                            .padding(3.dp)
                     )
                     AsyncImage(
                         model = "https://openweathermap.org/img/wn/${weather.icon}@2x.png",
                         contentDescription = weather.description,
                         modifier = Modifier
-                            .weight(4f)
-                            .padding(10.dp)
+                            .weight(2f)
+                            .padding(5.dp)
                     )
                 }
                 IconButton(onClick = { /*TODO*/ }) {

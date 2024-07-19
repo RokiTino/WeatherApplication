@@ -1,7 +1,5 @@
 package com.example.android.myapplication.presentation
 
-import CitySearch
-import CityViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,7 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel:WeatherViewModel by viewModels()
-    private val cityViewModel: CityViewModel by viewModels()
+//    private val cityViewModel: CityViewModel by viewModels()
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +41,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(),
+//                    topBar = {
+//                        CitySearch(cityViewModel)}
+                ) { innerPadding ->
                     when(val uiState = viewModel.cityWeatherUiState.collectAsState().value){
                         is CityWeatherUiState.Error ->{
                             CenteredBox(modifier = Modifier.padding(innerPadding)) {
@@ -59,37 +61,15 @@ class MainActivity : ComponentActivity() {
                             val name = data.name
                             val weather  = data.weather[0]
                             val temp = data.main.temp
-                            CenteredBox(modifier = Modifier.padding(innerPadding)) {
-//                                Text(text = "Current temp in $name is $weather")
-                                Column(modifier = Modifier.fillMaxWidth()){
-//                                    OutlinedTextField(
-//                                        modifier = Modifier.padding(20.dp),
-//                                        shape = RoundedCornerShape(50),
-//                                        value = data.name,
-//                                        onValueChange = {
-//                                            onResume(data.name)
-//                                        },
-//                                        placeholder = {
-//                                            Text(
-//                                                text = "Enter a city"
-//                                            )
-//                                        },
-//                                        leadingIcon = {
-//                                            IconButton(onClick = { }) {
-//                                                Icon(
-//                                                    imageVector = Icons.Default.Search,
-//                                                    contentDescription = null,
-//                                                    tint = Color.Gray,
-//                                                    modifier = Modifier.size(22.dp)
-//                                                )
-//                                            }
-//                                        },
-//                                    )
 
-                                    CitySearch(cityViewModel)
+
+                            CenteredBox(modifier = Modifier.padding(innerPadding)) {
+                                Column(modifier = Modifier.fillMaxWidth()){
+
+
                                     WetherCard(
                                         modifier = Modifier
-                                            .padding(30.dp)
+                                            .padding(20.dp)
                                             .background(
                                                 brush = Brush.horizontalGradient(
                                                     colors = listOf(
@@ -99,8 +79,8 @@ class MainActivity : ComponentActivity() {
                                                 )
                                             )
                                             .fillMaxWidth()
-                                            .height(150.dp)
-                                            .shadow(elevation = 3.dp),
+                                            .height(100.dp)
+                                            .shadow(elevation = 5.dp),
                                         weather = weather,
                                         temp = temp,
                                         city = name
@@ -118,10 +98,10 @@ class MainActivity : ComponentActivity() {
     }
     override fun onResume() {
         super.onResume()
-        viewModel.getCityWeatherData(cityName = cityViewModel.q)
+
+        viewModel.getCityWeatherData("Skopje")
     }
 }
-
 
 
 @Composable

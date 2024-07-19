@@ -1,6 +1,5 @@
 package com.example.android.myapplication.di
 
-import com.example.android.myapplication.data.CityApiService
 import com.example.android.myapplication.domain.OpenWeatherMapApi
 import dagger.Module
 import dagger.Provides
@@ -23,10 +22,6 @@ class AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    @Provides
-    fun provideCityApiService(retrofit: Retrofit): CityApiService {
-        return retrofit.create(CityApiService::class.java)
-    }
     @Provides
     fun provideApi(retrofit: Retrofit): OpenWeatherMapApi = retrofit.create(OpenWeatherMapApi::class.java)
 
