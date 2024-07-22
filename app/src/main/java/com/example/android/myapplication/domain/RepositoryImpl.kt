@@ -1,5 +1,6 @@
 package com.example.android.myapplication.domain
 
+import com.example.android.myapplication.data.CityData
 import com.example.android.myapplication.data.CityWeatherData
 import com.example.android.myapplication.data.CurrentWeatherData
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +21,10 @@ class RepositoryImpl @Inject constructor(private val api: OpenWeatherMapApi) : R
     override suspend fun getCurrentWeatherData(lat: Double, lon: Double): Flow<CurrentWeatherData> = flow {
         emit(api.getCurrentWeatherData(lat,lon))
     }.flowOn(coroutineContext)
+
+    override suspend fun getCityAutoComplete(cityName: String): Flow<CityData> = flow{
+            emit(api.getCityAutoComplete(cityName))
+        }.flowOn(coroutineContext)
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
