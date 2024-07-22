@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.gson)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.play.services.location)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
     testImplementation(libs.junit)
@@ -77,5 +78,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.coil.compose)
-
+    implementation(libs.logging.interceptor)
 }
